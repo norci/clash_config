@@ -1,0 +1,51 @@
+rules:
+  # proxy
+  - DOMAIN,d3c33hcgiwev3.cloudfront.net,proxy # coursera video
+
+  # github
+  # - DOMAIN,github.com,DIRECT
+  - DOMAIN,raw.githubusercontent.com,proxy
+  - DOMAIN,objects.githubusercontent.com,proxy
+  - DOMAIN,git.io,proxy
+  - IP-CIDR,20.205.243.166/32,proxy,no-resolve
+
+  # google
+  - DOMAIN-KEYWORD,google,proxy
+  - DOMAIN-SUFFIX,ggpht.com,proxy
+  - DOMAIN-SUFFIX,gravatar.com,proxy
+  - DOMAIN-SUFFIX,gstatic.com,proxy
+  - DOMAIN-SUFFIX,youtube.com,proxy
+  - DOMAIN-SUFFIX,youtu.be,proxy
+  - DOMAIN-SUFFIX,ytimg.com,proxy
+  - DOMAIN-SUFFIX,android.com,proxy
+  - DOMAIN-SUFFIX,translate.goog,proxy
+
+  # steam
+  - DOMAIN-SUFFIX,steamcommunity.com,proxy
+  - DOMAIN-SUFFIX,steamcontent.com,DIRECT
+  - DOMAIN-SUFFIX,steamstatic.com,DIRECT
+
+  #
+  - DOMAIN,mozilla.cloudflare-dns.com,proxy
+  - DOMAIN-SUFFIX,brave.com,proxy
+  - DOMAIN-SUFFIX,medium.com,proxy
+  - DOMAIN-SUFFIX,wikipedia.org,proxy
+  - DOMAIN-SUFFIX,discord.com,proxy
+  - DOMAIN-SUFFIX,wikibooks.org,proxy
+  - DOMAIN-SUFFIX,imgur.com,proxy
+  - DOMAIN-SUFFIX,twitter.com,proxy
+  - DOMAIN-SUFFIX,facebook.com,proxy
+
+  # direct
+  - DOMAIN,yacd.haishan.me,DIRECT
+  - DOMAIN-SUFFIX,cn,DIRECT
+  - DOMAIN-KEYWORD,cloudflare,DIRECT
+  - DOMAIN-SUFFIX,firefox.com,DIRECT
+  - DOMAIN-SUFFIX,mozilla.com,DIRECT
+  - DOMAIN-SUFFIX,mozilla.org,DIRECT
+  - DOMAIN-SUFFIX,mozilla.net,DIRECT
+  #
+  - GEOIP,LAN,DIRECT,noresolve
+  - GEOIP,CN,DIRECT
+  # final
+  - MATCH,Default

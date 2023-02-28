@@ -1,0 +1,216 @@
+mixed-port: 7890
+allow-lan: true
+mode: rule
+log-level: info
+external-controller: 0.0.0.0:9090
+profile:
+  store-selected: true
+
+proxies:
+
+proxy-groups:
+  - name: loc
+    type: select
+    url: 'http://www.gstatic.com/generate_204'
+    proxies:
+      - from_ALL
+      - from_US
+      - from_NUS
+  - name: Relay
+    type: relay
+    url: 'http://www.gstatic.com/generate_204'
+    proxies:
+      - loc
+      - loc
+  - name: proxy
+    type: select
+    url: 'http://www.gstatic.com/generate_204'
+    proxies:
+      - loc
+      - Relay
+      - DIRECT
+  - name: Default
+    type: select
+    proxies:
+      - DIRECT
+      - proxy
+
+
+  - name: from_US
+    type: load-balance
+    url: 'http://www.gstatic.com/generate_204'
+    strategy: round-robin # consistent-hashing or round-robin
+    use:
+      - proxypool.laowang.me_US
+      - proxies.haisto.cn_US
+      - 101.132.255.205:1234_US
+      - pic.332311.xyz:8080_US
+
+
+  - name: from_NUS
+    type: load-balance
+    url: 'http://www.gstatic.com/generate_204'
+    strategy: round-robin # consistent-hashing or round-robin
+    use:
+      - proxypool.laowang.me_NUS
+      - proxies.haisto.cn_NUS
+      - 101.132.255.205:1234_NUS
+      - pic.332311.xyz:8080_NUS
+
+
+  - name: from_ALL
+    type: load-balance
+    url: 'http://www.gstatic.com/generate_204'
+    strategy: round-robin # consistent-hashing or round-robin
+    use:
+      - proxypool.laowang.me_US
+      - proxypool.laowang.me_NUS
+      - proxies.haisto.cn_US
+      - proxies.haisto.cn_NUS
+      - 101.132.255.205:1234_US
+      - 101.132.255.205:1234_NUS
+      - pic.332311.xyz:8080_US
+      - pic.332311.xyz:8080_NUS
+
+
+proxy-providers:
+
+
+  proxypool.laowang.me_US:
+    type: http
+    url: "http://proxypool.laowang.me/clash/proxies?c=US"
+    interval: 86400
+    path: providers/proxypool.laowang.me_US
+    health-check:
+      enable: true
+      interval: 3600
+      url: https://i.ytimg.com/generate_204
+
+
+  proxypool.laowang.me_NUS:
+    type: http
+    url: "http://proxypool.laowang.me/clash/proxies?nc=US"
+    interval: 86400
+    path: providers/proxypool.laowang.me_NUS
+    health-check:
+      enable: true
+      interval: 3600
+      url: https://i.ytimg.com/generate_204
+
+
+  proxies.haisto.cn_US:
+    type: http
+    url: "http://proxies.haisto.cn/clash/proxies?c=US"
+    interval: 86400
+    path: providers/proxies.haisto.cn_US
+    health-check:
+      enable: true
+      interval: 3600
+      url: https://i.ytimg.com/generate_204
+
+
+  proxies.haisto.cn_NUS:
+    type: http
+    url: "http://proxies.haisto.cn/clash/proxies?nc=US"
+    interval: 86400
+    path: providers/proxies.haisto.cn_NUS
+    health-check:
+      enable: true
+      interval: 3600
+      url: https://i.ytimg.com/generate_204
+
+
+  101.132.255.205:1234_US:
+    type: http
+    url: "http://101.132.255.205:1234/clash/proxies?c=US"
+    interval: 86400
+    path: providers/101.132.255.205:1234_US
+    health-check:
+      enable: true
+      interval: 3600
+      url: https://i.ytimg.com/generate_204
+
+
+  101.132.255.205:1234_NUS:
+    type: http
+    url: "http://101.132.255.205:1234/clash/proxies?nc=US"
+    interval: 86400
+    path: providers/101.132.255.205:1234_NUS
+    health-check:
+      enable: true
+      interval: 3600
+      url: https://i.ytimg.com/generate_204
+
+
+  pic.332311.xyz:8080_US:
+    type: http
+    url: "http://pic.332311.xyz:8080/clash/proxies?c=US"
+    interval: 86400
+    path: providers/pic.332311.xyz:8080_US
+    health-check:
+      enable: true
+      interval: 3600
+      url: https://i.ytimg.com/generate_204
+
+
+  pic.332311.xyz:8080_NUS:
+    type: http
+    url: "http://pic.332311.xyz:8080/clash/proxies?nc=US"
+    interval: 86400
+    path: providers/pic.332311.xyz:8080_NUS
+    health-check:
+      enable: true
+      interval: 3600
+      url: https://i.ytimg.com/generate_204
+
+rules:
+  # proxy
+  - DOMAIN,d3c33hcgiwev3.cloudfront.net,proxy # coursera video
+
+  # github
+  # - DOMAIN,github.com,DIRECT
+  - DOMAIN,raw.githubusercontent.com,proxy
+  - DOMAIN,objects.githubusercontent.com,proxy
+  - DOMAIN,git.io,proxy
+  - IP-CIDR,20.205.243.166/32,proxy,no-resolve
+
+  # google
+  - DOMAIN-KEYWORD,google,proxy
+  - DOMAIN-SUFFIX,ggpht.com,proxy
+  - DOMAIN-SUFFIX,gravatar.com,proxy
+  - DOMAIN-SUFFIX,gstatic.com,proxy
+  - DOMAIN-SUFFIX,youtube.com,proxy
+  - DOMAIN-SUFFIX,youtu.be,proxy
+  - DOMAIN-SUFFIX,ytimg.com,proxy
+  - DOMAIN-SUFFIX,android.com,proxy
+  - DOMAIN-SUFFIX,translate.goog,proxy
+
+  # steam
+  - DOMAIN-SUFFIX,steamcommunity.com,proxy
+  - DOMAIN-SUFFIX,steamcontent.com,DIRECT
+  - DOMAIN-SUFFIX,steamstatic.com,DIRECT
+
+  #
+  - DOMAIN,mozilla.cloudflare-dns.com,proxy
+  - DOMAIN-SUFFIX,brave.com,proxy
+  - DOMAIN-SUFFIX,medium.com,proxy
+  - DOMAIN-SUFFIX,wikipedia.org,proxy
+  - DOMAIN-SUFFIX,discord.com,proxy
+  - DOMAIN-SUFFIX,wikibooks.org,proxy
+  - DOMAIN-SUFFIX,imgur.com,proxy
+  - DOMAIN-SUFFIX,twitter.com,proxy
+  - DOMAIN-SUFFIX,facebook.com,proxy
+
+  # direct
+  - DOMAIN,yacd.haishan.me,DIRECT
+  - DOMAIN-SUFFIX,cn,DIRECT
+  - DOMAIN-KEYWORD,cloudflare,DIRECT
+  - DOMAIN-SUFFIX,firefox.com,DIRECT
+  - DOMAIN-SUFFIX,mozilla.com,DIRECT
+  - DOMAIN-SUFFIX,mozilla.org,DIRECT
+  - DOMAIN-SUFFIX,mozilla.net,DIRECT
+  #
+  - GEOIP,LAN,DIRECT,noresolve
+  - GEOIP,CN,DIRECT
+  # final
+  - MATCH,Default
