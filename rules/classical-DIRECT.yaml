@@ -1,0 +1,11 @@
+payload:
+  - GEOSITE,google-cn
+  - GEOSITE,category-games@cn
+  - GEOSITE,microsoft@cn
+  - GEOSITE,geolocation-cn
+
+  - GEOIP,private,no-resolve
+  - GEOIP,cn
+
+  - GEOIP,LAN,noresolve
+  - GEOIP,CN

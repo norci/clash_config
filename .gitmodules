@@ -1,0 +1,4 @@
+[submodule "yacd-meta"]
+	path = yacd-meta
+	url = https://github.com/MetaCubeX/Yacd-meta.git
+	branch = gh-pages

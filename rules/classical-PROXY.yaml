@@ -1,0 +1,6 @@
+payload:
+  - GEOSITE,facebook
+  - GEOSITE,youtube
+  - GEOSITE,gfw
+  - GEOSITE,greatfire
+  - GEOIP,telegram,no-resolve

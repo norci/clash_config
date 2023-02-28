@@ -1,0 +1,189 @@
+allow-lan: true
+bind-address: 0.0.0.0
+dns:
+  default-nameserver:
+  - 223.5.5.5
+  - 119.29.29.29
+  enable: true
+  enhanced-mode: fake-ip
+  fake-ip-filter:
+  - +.lan
+  - +.local
+  fake-ip-range: 198.18.0.1/16
+  ipv6: true
+  listen: 0.0.0.0:1053
+  nameserver:
+  - https://doh.pub/dns-query
+  - https://dns.alidns.com/dns-query
+  - tls://dns.rubyfish.cn:853
+  nameserver-policy:
+    geosite:gfw: &id001
+    - https://dns.google/dns-query
+    - https://doh.opendns.com/dns-query
+    geosite:greatfire: *id001
+  prefer-h3: true
+  proxy-server-nameserver: *id001
+  use-hosts: true
+external-controller: 0.0.0.0:9090
+external-ui: ./yacd-meta/
+geodata-mode: true
+geox-url:
+  geoip: https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geoip.dat
+  geosite: https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat
+  mmdb: https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb
+ipv6: true
+log-level: debug
+mixed-port: 7890
+mode: rule
+profile:
+  store-fake-ip: true
+  store-selected: true
+proxies: null
+proxy-groups:
+- interval: 3600
+  name: PROXY
+  proxies:
+  - LDBL
+  - DIRECT
+  type: select
+  url: http://google.com
+  use: &id002
+  - 15.235.147.69:443
+  - 81.70.255.175:8080
+  - free.iam7.tk
+  - pi.scntvb.ml:8080
+  - pic.332311.xyz:8080
+  - proxies.haisto.cn
+  - proxy.yiun.xyz
+  - proxy.yugogo.xyz
+- interval: 3600
+  name: LDBL
+  strategy: round-robin
+  type: load-balance
+  url: http://google.com
+  use: *id002
+- name: DEFAULT
+  proxies:
+  - DIRECT
+  - PROXY
+  type: select
+proxy-providers:
+  15.235.147.69:443:
+    health-check: &id003
+      enable: true
+      interval: 7200
+      lazy: false
+      url: http://google.com
+    interval: 86400
+    path: providers/15.235.147.69:443
+    type: http
+    url: http://15.235.147.69:443/clash/proxies
+  81.70.255.175:8080:
+    health-check: *id003
+    interval: 86400
+    path: providers/81.70.255.175:8080
+    type: http
+    url: http://81.70.255.175:8080/clash/proxies
+  free.iam7.tk:
+    health-check: *id003
+    interval: 86400
+    path: providers/free.iam7.tk
+    type: http
+    url: http://free.iam7.tk/clash/proxies
+  pi.scntvb.ml:8080:
+    health-check: *id003
+    interval: 86400
+    path: providers/pi.scntvb.ml:8080
+    type: http
+    url: http://pi.scntvb.ml:8080/clash/proxies
+  pic.332311.xyz:8080:
+    health-check: *id003
+    interval: 86400
+    path: providers/pic.332311.xyz:8080
+    type: http
+    url: http://pic.332311.xyz:8080/clash/proxies
+  proxies.haisto.cn:
+    health-check: *id003
+    interval: 86400
+    path: providers/proxies.haisto.cn
+    type: http
+    url: http://proxies.haisto.cn/clash/proxies
+  proxy.yiun.xyz:
+    health-check: *id003
+    interval: 86400
+    path: providers/proxy.yiun.xyz
+    type: http
+    url: http://proxy.yiun.xyz/clash/proxies
+  proxy.yugogo.xyz:
+    health-check: *id003
+    interval: 86400
+    path: providers/proxy.yugogo.xyz
+    type: http
+    url: http://proxy.yugogo.xyz/clash/proxies
+redir-port: 7892
+rule-providers:
+  classical-DIRECT:
+    behavior: classical
+    interval: 86400
+    path: rules/classical-DIRECT.yaml
+    type: http
+    url: http://192.168.3.2:8080/rules/classical-DIRECT.yaml
+  classical-PROXY:
+    behavior: classical
+    interval: 86400
+    path: rules/classical-PROXY.yaml
+    type: http
+    url: http://192.168.3.2:8080/rules/classical-PROXY.yaml
+  classical-REJECT:
+    behavior: classical
+    interval: 86400
+    path: rules/classical-REJECT.yaml
+    type: http
+    url: http://192.168.3.2:8080/rules/classical-REJECT.yaml
+  domain-DIRECT:
+    behavior: domain
+    interval: 86400
+    path: rules/domain-DIRECT.yaml
+    type: http
+    url: http://192.168.3.2:8080/rules/domain-DIRECT.yaml
+  domain-PROXY:
+    behavior: domain
+    interval: 86400
+    path: rules/domain-PROXY.yaml
+    type: http
+    url: http://192.168.3.2:8080/rules/domain-PROXY.yaml
+  domain-REJECT:
+    behavior: domain
+    interval: 86400
+    path: rules/domain-REJECT.yaml
+    type: http
+    url: http://192.168.3.2:8080/rules/domain-REJECT.yaml
+  whitelist:
+    behavior: domain
+    interval: 86400
+    path: rules/whitelist.yaml
+    type: http
+    url: http://192.168.3.2:8080/rules/whitelist.yaml
+rules:
+- RULE-SET,whitelist,DIRECT
+- RULE-SET,classical-REJECT,REJECT
+- RULE-SET,domain-REJECT,REJECT
+- RULE-SET,classical-DIRECT,DIRECT
+- RULE-SET,domain-DIRECT,DIRECT
+- RULE-SET,classical-PROXY,PROXY
+- RULE-SET,domain-PROXY,PROXY
+- MATCH,DEFAULT
+secret: ''
+sniffer:
+  enable: true
+  force-domain:
+  - google.com
+  skip-domain:
+  - Mijia Cloud
+  - dlg.io.mi.com
+  - +.apple.com
+  - '*.baidu.com'
+  sniffing:
+  - tls
+  - http
+tcp-concurrent: true
