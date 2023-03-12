@@ -40,7 +40,19 @@ dns:
   prefer-h3: true
   proxy-server-nameserver: *id001
   use-hosts: true
-proxies: null
+proxies:
+  - name: "i2p-http"
+    type: http
+    server: 127.0.0.1
+    port: 4444
+    # username: username
+    # password: password
+    tls: false
+  - name: "i2p-socks"
+    type: socks5
+    server: 127.0.0.1
+    port: 4447
+    tls: false
 proxy-groups:
 - name: PROXY
   proxies:
@@ -56,6 +68,7 @@ proxy-groups:
   - PROXY
   type: select
 rules:
+- DOMAIN-SUFFIX,i2p,i2p-http
 - RULE-SET,whitelist,DIRECT
 secret: ''
 sniffer:
@@ -76,7 +89,7 @@ extra:
     enable: true
     interval: 7200
     lazy: false
-    url: "http://google.com"
+    url: "https://google.com"
   providers:
     - 15.235.147.69:443
     - 81.70.255.175:8080

@@ -38,7 +38,17 @@ mode: rule
 profile:
   store-fake-ip: true
   store-selected: true
-proxies: null
+proxies:
+- name: i2p-http
+  port: 4444
+  server: 127.0.0.1
+  tls: false
+  type: http
+- name: i2p-socks
+  port: 4447
+  server: 127.0.0.1
+  tls: false
+  type: socks5
 proxy-groups:
 - interval: 3600
   name: PROXY
@@ -46,7 +56,7 @@ proxy-groups:
   - LDBL
   - DIRECT
   type: select
-  url: http://google.com
+  url: https://google.com
   use: &id002
   - 15.235.147.69:443
   - 81.70.255.175:8080
@@ -60,7 +70,7 @@ proxy-groups:
   name: LDBL
   strategy: round-robin
   type: load-balance
-  url: http://google.com
+  url: https://google.com
   use: *id002
 - name: DEFAULT
   proxies:
@@ -73,7 +83,7 @@ proxy-providers:
       enable: true
       interval: 7200
       lazy: false
-      url: http://google.com
+      url: https://google.com
     interval: 86400
     path: providers/15.235.147.69:443
     type: http
@@ -165,6 +175,7 @@ rule-providers:
     type: http
     url: http://192.168.3.2:8080/rules/whitelist.yaml
 rules:
+- DOMAIN-SUFFIX,i2p,i2p-http
 - RULE-SET,whitelist,DIRECT
 - RULE-SET,classical-REJECT,REJECT
 - RULE-SET,domain-REJECT,REJECT
