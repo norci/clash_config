@@ -1,9 +1,11 @@
 payload:
-  - "+.firefox.com"
-  - "+.jsdelivr.com"
-  - "+.mozilla.*"
-  - "+.syncthing.net"
-  - ".cn"
-  - "cdn.jsdelivr.net"
-  - "yacd.haishan.me"
-  - "yacd.metacubex.one"
+- "+.firefox.com"
+- "+.jsdelivr.com"
+- "+.mozilla.*"
+- "+.syncthing.net"
+- ".cn"
+- "cdn.jsdelivr.net"
+- "yacd.haishan.me"
+- "yacd.metacubex.one"
+- doh.opendns.com
+
