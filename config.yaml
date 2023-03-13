@@ -11,7 +11,7 @@ dns:
   - +.local
   fake-ip-range: 198.18.0.1/16
   ipv6: true
-  listen: 0.0.0.0:1053
+  listen: 127.0.0.1:1053
   nameserver:
   - https://doh.pub/dns-query
   - https://dns.alidns.com/dns-query
@@ -24,7 +24,7 @@ dns:
   prefer-h3: true
   proxy-server-nameserver: *id001
   use-hosts: true
-external-controller: 0.0.0.0:9090
+external-controller: 127.0.0.1:9090
 external-ui: ./yacd-meta/
 geodata-mode: true
 geox-url:
@@ -32,7 +32,7 @@ geox-url:
   geosite: https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat
   mmdb: https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb
 ipv6: true
-log-level: debug
+log-level: info
 mixed-port: 7890
 mode: rule
 profile:

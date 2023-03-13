@@ -2,10 +2,10 @@ bind-address: 0.0.0.0
 mixed-port: 7890
 redir-port: 7892
 allow-lan: true
-external-controller: 0.0.0.0:9090
+external-controller: 127.0.0.1:9090
 external-ui: ./yacd-meta/
 ipv6: true
-log-level: debug
+log-level: info
 mode: rule
 profile:
   store-fake-ip: true
@@ -27,7 +27,7 @@ dns:
   - +.local
   fake-ip-range: 198.18.0.1/16
   ipv6: true
-  listen: 0.0.0.0:1053
+  listen: 127.0.0.1:1053
   nameserver:
   - https://doh.pub/dns-query
   - https://dns.alidns.com/dns-query
