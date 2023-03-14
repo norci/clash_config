@@ -2,7 +2,7 @@ allow-lan: true
 bind-address: 0.0.0.0
 dns:
   default-nameserver:
-  - tls://1.12.12.12
+  - tls://120.53.53.53
   - tls://223.5.5.5
   enable: true
   enhanced-mode: fake-ip
@@ -14,8 +14,8 @@ dns:
   ipv6: true
   listen: 127.0.0.1:1053
   nameserver:
-  - tls://dot.pub
-  - tls://dot.360.cn
+  - tls://1.12.12.12
+  - tls://112.65.69.15
   nameserver-policy:
     geosite:gfw: &id001
     - quic://dns-family.adguard.com

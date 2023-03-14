@@ -29,12 +29,14 @@ dns:
   - +.local
   - +.i2p
   default-nameserver:
-  - tls://1.12.12.12
+  # tls://dot.pub # [1.12.12.12    120.53.53.53]
+  # tls://dns.alidns.com # [223.5.5.5    223.6.6.6]
+  # tls://dot.360.cn # [123.6.48.18    112.65.69.15]
+  - tls://120.53.53.53
   - tls://223.5.5.5
   nameserver:
-  - tls://dot.pub
-  # - tls://dns.alidns.com
-  - tls://dot.360.cn
+  - tls://1.12.12.12
+  - tls://112.65.69.15
   nameserver-policy:
     geosite:gfw: &id001
     - quic://dns-family.adguard.com
