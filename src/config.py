@@ -7,7 +7,7 @@ with open("base_config.yaml") as hl:
 providers = config["extra"]["providers"]
 HC=config["extra"]["health-check"]
 for i in range(2):
-    config["proxy-groups"][i].update({"use":providers, "interval": 3600, "url": HC["url"]})
+    config["proxy-groups"][i].update({"use":providers})#, "interval": 3600, "url": HC["url"]})
 
 config["proxy-providers"]={}
 for p in providers:
@@ -47,7 +47,7 @@ config["rule-providers"]["whitelist"] = {
 "interval": 86400,
 "path": "rules/" + "whitelist.yaml"
 }
-config["rules"].append("MATCH,DEFAULT")
+config["rules"].append("MATCH,GLOBAL")
 config.pop("extra")
 with open("../config.yaml", "wt") as hl:
     yaml.dump(config, hl)

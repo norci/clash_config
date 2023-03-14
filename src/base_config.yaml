@@ -5,7 +5,7 @@ allow-lan: true
 external-controller: 127.0.0.1:9090
 external-ui: ./yacd-meta/
 ipv6: true
-log-level: info
+log-level: error
 mode: rule
 profile:
   store-fake-ip: true
@@ -17,29 +17,32 @@ geox-url:
   geosite: https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat
   mmdb: https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb
 dns:
-  default-nameserver:
-  - 223.5.5.5
-  - 119.29.29.29
   enable: true
+  listen: 127.0.0.1:1053
+  ipv6: true
+  prefer-h3: true
+  use-hosts: true
   enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
   fake-ip-filter:
   - +.lan
   - +.local
-  fake-ip-range: 198.18.0.1/16
-  ipv6: true
-  listen: 127.0.0.1:1053
+  - +.i2p
+  default-nameserver:
+  - tls://1.12.12.12
+  - tls://223.5.5.5
   nameserver:
-  - https://doh.pub/dns-query
-  - https://dns.alidns.com/dns-query
-  - tls://dns.rubyfish.cn:853
+  - tls://dot.pub
+  # - tls://dns.alidns.com
+  - tls://dot.360.cn
   nameserver-policy:
     geosite:gfw: &id001
-    - https://dns.google/dns-query
-    - https://doh.opendns.com/dns-query
+    - quic://dns-family.adguard.com
+    # - quic://dns.adguard.com
+    - https://doh.familyshield.opendns.com/dns-query
+    # - https://doh.opendns.com/dns-query
     geosite:greatfire: *id001
-  prefer-h3: true
   proxy-server-nameserver: *id001
-  use-hosts: true
 proxies:
   - name: "i2p-http"
     type: http
@@ -57,16 +60,12 @@ proxy-groups:
 - name: PROXY
   proxies:
   - LDBL
+  - i2p-http
   - DIRECT
   type: select
 - name: LDBL
   strategy: round-robin
   type: load-balance
-- name: DEFAULT
-  proxies:
-  - DIRECT
-  - PROXY
-  type: select
 rules:
 - DOMAIN-SUFFIX,i2p,i2p-http
 - RULE-SET,whitelist,DIRECT
@@ -76,6 +75,7 @@ sniffer:
   force-domain:
   - google.com
   skip-domain:
+  - +.i2p
   - Mijia Cloud
   - dlg.io.mi.com
   - +.apple.com
@@ -91,7 +91,6 @@ extra:
     lazy: false
     url: "https://google.com"
   providers:
-    - 15.235.147.69:443
     - 81.70.255.175:8080
     - free.iam7.tk
     - pi.scntvb.ml:8080

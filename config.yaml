@@ -2,24 +2,24 @@ allow-lan: true
 bind-address: 0.0.0.0
 dns:
   default-nameserver:
-  - 223.5.5.5
-  - 119.29.29.29
+  - tls://1.12.12.12
+  - tls://223.5.5.5
   enable: true
   enhanced-mode: fake-ip
   fake-ip-filter:
   - +.lan
   - +.local
+  - +.i2p
   fake-ip-range: 198.18.0.1/16
   ipv6: true
   listen: 127.0.0.1:1053
   nameserver:
-  - https://doh.pub/dns-query
-  - https://dns.alidns.com/dns-query
-  - tls://dns.rubyfish.cn:853
+  - tls://dot.pub
+  - tls://dot.360.cn
   nameserver-policy:
     geosite:gfw: &id001
-    - https://dns.google/dns-query
-    - https://doh.opendns.com/dns-query
+    - quic://dns-family.adguard.com
+    - https://doh.familyshield.opendns.com/dns-query
     geosite:greatfire: *id001
   prefer-h3: true
   proxy-server-nameserver: *id001
@@ -32,7 +32,7 @@ geox-url:
   geosite: https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat
   mmdb: https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb
 ipv6: true
-log-level: info
+log-level: error
 mixed-port: 7890
 mode: rule
 profile:
@@ -50,15 +50,13 @@ proxies:
   tls: false
   type: socks5
 proxy-groups:
-- interval: 3600
-  name: PROXY
+- name: PROXY
   proxies:
   - LDBL
+  - i2p-http
   - DIRECT
   type: select
-  url: https://google.com
   use: &id002
-  - 15.235.147.69:443
   - 81.70.255.175:8080
   - free.iam7.tk
   - pi.scntvb.ml:8080
@@ -66,30 +64,17 @@ proxy-groups:
   - proxies.haisto.cn
   - proxy.yiun.xyz
   - proxy.yugogo.xyz
-- interval: 3600
-  name: LDBL
+- name: LDBL
   strategy: round-robin
   type: load-balance
-  url: https://google.com
   use: *id002
-- name: DEFAULT
-  proxies:
-  - DIRECT
-  - PROXY
-  type: select
 proxy-providers:
-  15.235.147.69:443:
+  81.70.255.175:8080:
     health-check: &id003
       enable: true
       interval: 7200
       lazy: false
       url: https://google.com
-    interval: 86400
-    path: providers/15.235.147.69:443
-    type: http
-    url: http://15.235.147.69:443/clash/proxies
-  81.70.255.175:8080:
-    health-check: *id003
     interval: 86400
     path: providers/81.70.255.175:8080
     type: http
@@ -183,13 +168,14 @@ rules:
 - RULE-SET,domain-DIRECT,DIRECT
 - RULE-SET,classical-PROXY,PROXY
 - RULE-SET,domain-PROXY,PROXY
-- MATCH,DEFAULT
+- MATCH,GLOBAL
 secret: ''
 sniffer:
   enable: true
   force-domain:
   - google.com
   skip-domain:
+  - +.i2p
   - Mijia Cloud
   - dlg.io.mi.com
   - +.apple.com
